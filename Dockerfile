@@ -99,7 +99,7 @@ RUN git clone http://github.com/yqyuhao/MCD.git && cd MCD && unzip annovar_2017-
 
 # copy esssential files
 WORKDIR $software/source
-RUN cd MCD && cp fastq2stat.pl api_baopi-post.py $software/bin/ && cp T554V1.bed $software/target/
+RUN cd MCD && cp fastq2stat.pl api_baopi-post.py MCD_baopi_simple $software/bin/ && cp T554V1.bed $software/target/
 
 # chown root:root
 WORKDIR $software/source

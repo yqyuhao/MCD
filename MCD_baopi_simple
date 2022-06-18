@@ -4,7 +4,7 @@ set +x
 ######################
 Righton=/Righton_software
 bin_dir=$Righton/bin
-ref=$Righton/ref/ucsc.hg19.fasta
+ref=$Righton/ucsc.hg19.fasta
 fastp=$bin_dir/fastp
 bwa=$bin_dir/bwa
 samtools=$bin_dir/samtools

@@ -50,7 +50,7 @@ function lianti_Analysis()
 	id=`echo $task | cut -d "," -f 3`
 	sampleNo=`echo $task | cut -d "," -f 4`
 	projectId=`echo $task | cut -d "," -f 5`
-	if [[ $projectId -eq 3 ]];then bed="T554V1.bed";fi
+	if [[ $projectId -eq 3 ]];then bed="$target_dir/T554V1.bed";fi
 	if [[ -f $fq1 && -f $fq2 && -n $bed ]];then
 		i=${id}
 		sample_dir=$analysis_dir/${i}

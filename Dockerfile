@@ -91,7 +91,7 @@ RUN wget -c https://github.com/s-andrews/FastQC/archive/refs/tags/v0.11.9.tar.gz
 WORKDIR $software/source
 RUN wget -c https://nchc.dl.sourceforge.net/project/snpeff/snpEff_v4_3t_core.zip -O $software/source/snpEff_v4_3t_core.zip \
 && unzip $software/source/snpEff_v4_3t_core.zip && mv $software/source/snpEff $software/source/snpEff_v4_3t \
-&& sed -i ':17s#\.\/#/Righton_software/database/snpEff_hg19#g' $software/source/snpEff_v4_3t/snpEff.config \
+&& sed -i ':17s#\.\/#/Righton_software/database/snpEff_hg19/#g' $software/source/snpEff_v4_3t/snpEff.config \
 && ln -s $software/source/snpEff_v4_3t $software/bin/snpEff
 
 # Annovar 2017-07-17

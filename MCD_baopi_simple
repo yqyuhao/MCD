@@ -204,7 +204,7 @@ function lianti_Analysis()
 		rm -f $sample_dir/${i}.dedup.metrics $sample_dir/${i}.dup.bam  $sample_dir/${i}.unique.bam  $sample_dir/${i}.unique.metrics
 		rm -f $sample_dir/${i}.paired.R1.fastq $sample_dir/${i}.paired.R2.fastq $sample_dir/${fq11/.gz/} $sample_dir/${fq22/.gz/}
 		rm -f $sample_dir/${i}.json $sample_dir/${i}.html $sample_dir/${i}.lianti.snpEff_summary.genes.txt $sample_dir/${i}.lianti.snpEff_summary.html
-		rm -f $sample_dir/${i}.sort.bam.bai
+		rm -f $sample_dir/${i}.sort.bam.bai $sample_dir/${i}.ready.bai
 		echo "${i} Work finished at `date`"
 	else
 		echo "fastq or bed not find"

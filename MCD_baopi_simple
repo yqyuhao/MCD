@@ -4,7 +4,6 @@ set +x
 ######################
 Righton=/Righton_software
 bin_dir=$Righton/bin
-ref=$Righton/ucsc.hg19.fasta
 fastp=$bin_dir/fastp
 bwa=$bin_dir/bwa
 samtools=$bin_dir/samtools
@@ -17,7 +16,8 @@ snpEff=$bin_dir/snpEff.jar
 target_dir=$Righton/target
 Ncpu_all=$(lscpu|awk '/^CPU\(s\)/{print int($2)}')
 database_dir=$Righton/databases
-annovar_dir=$databases/Annovar_hg19
+ref=$database_dir/ucsc.hg19.fasta
+annovar_dir=$database_dir/Annovar_hg19
 gene_list=$database_dir/gene_format/gene_list.xls
 aa_list=$database_dir/gene_format/aa_gene.xls
 aa_replace=$database_dir/gene_format/aa_replace.xls

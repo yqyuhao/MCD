@@ -121,13 +121,13 @@ function lianti_Analysis()
 		Unique_reads=`cat $sample_dir/${i}.unique.stat|awk '$0~/reads mapped:/{split($0,a,"\t");printf a[2]}'`
 		Unique_bases=`cat $sample_dir/${i}.unique.stat|awk '$0~/bases mapped:/{split($0,a,"\t");printf a[2]}'`
 		Duplicate_reads=`cat $sample_dir/${i}.dup.stat|awk '$0~/reads duplicated:/{split($0,a,"\t");printf a[2]}'`
-		Duplication_rate=`echo $Duplicate_reads $Clean_reads | awk '{printf("%0.2f%\n",$1*100/$2)}'`
+		Duplication_rate=`echo $Duplicate_reads $Clean_reads | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
 		Accurate_mapping_reads=`cat $sample_dir/${i}.stat|awk '$0~/reads mapped:/{split($0,a,":");printf a[2]"\t"}'`  
-		Accurate_mapping_rate=`echo $Accurate_mapping_reads $Clean_reads | awk '{a=$1/$2;if(a<0.9){a=a+0.1};printf("%0.2f%\n",a*100)}'`	   
+		Accurate_mapping_rate=`echo $Accurate_mapping_reads $Clean_reads | awk '{a=$1/$2;if(a<0.9){a=a+0.1};printf("%0.2f%%\n",a*100)}'`	   
 		Target_overlaped_reads=`cat $sample_dir/${i}.ontarget.stat|awk '$0~/reads mapped:/{split($0,a,"\t");printf a[2]}'`
-		Reads_capture_rate=`echo $Target_overlaped_reads $Unique_reads | awk '{printf("%0.2f%\n",$1*100/$2)}'`
+		Reads_capture_rate=`echo $Target_overlaped_reads $Unique_reads | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
 		Target_effective_bases=`awk '{sum += $3};END {print sum}' $sample_dir/${i}.${bed}.depth`
-		Bases_capture_rate=`echo $Target_effective_bases $Unique_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
+		Bases_capture_rate=`echo $Target_effective_bases $Unique_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
 		coverage_bases=`cat $sample_dir/${i}.${bed}.all.depth|wc -l`
 		coverage_1x=`awk '$1>=1 {sum += 1};END {print sum}' $sample_dir/${i}.${bed}.all.depth`
 		coverage_4x=`awk '$1>=4 {sum += 1};END {print sum}' $sample_dir/${i}.${bed}.all.depth`
@@ -138,45 +138,45 @@ function lianti_Analysis()
 		coverage_200x=`awk '$1>=200 {sum += 1};END {print sum}' $sample_dir/${i}.${bed}.all.depth`
 		coverage_500x=`awk '$1>=500 {sum += 1};END {print sum}' $sample_dir/${i}.${bed}.all.depth`
 		coverage_sum=`awk '$1>0 {sum += $1};END {print sum}' $sample_dir/${i}.${bed}.all.depth`
-		coverage_1x_rate=`echo $coverage_1x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
-		coverage_4x_rate=`echo $coverage_4x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
-		coverage_10x_rate=`echo $coverage_10x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
-		coverage_20x_rate=`echo $coverage_20x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
-		coverage_50x_rate=`echo $coverage_50x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
-		coverage_100x_rate=`echo $coverage_100x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
-		coverage_200x_rate=`echo $coverage_200x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
-		coverage_500x_rate=`echo $coverage_500x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
+		coverage_1x_rate=`echo $coverage_1x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
+		coverage_4x_rate=`echo $coverage_4x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
+		coverage_10x_rate=`echo $coverage_10x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
+		coverage_20x_rate=`echo $coverage_20x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
+		coverage_50x_rate=`echo $coverage_50x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
+		coverage_100x_rate=`echo $coverage_100x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
+		coverage_200x_rate=`echo $coverage_200x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
+		coverage_500x_rate=`echo $coverage_500x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
 		average_coverage=$(printf "%d" $((coverage_sum/coverage_bases)))
 		median_coverage=`less $sample_dir/${i}.${bed}.all.depth|wc -l | xargs -i expr {} / 2 + 1 | xargs -i sed -n {}p $sample_dir/${i}.${bed}.all.depth`
 		Uniformity_x=`awk -v average_coverage=$average_coverage '$1>=(average_coverage*0.25) {sum += 1};END {print sum}' $sample_dir/${i}.${bed}.all.depth`
-		Uniformity=`echo $Uniformity_x $coverage_bases | awk '{printf("%0.2f%\n",$1*100/$2)}'`
+		Uniformity=`echo $Uniformity_x $coverage_bases | awk '{printf("%0.2f%%\n",$1*100/$2)}'`
 		Mode_insert_size=`less $sample_dir/${i}.insert_size_metrics.txt | sed -n 8p | cut -f2`
 		echo -ne "${id}\t${i}\t${bed}\t$average_coverage\t$Reads_capture_rate\t$Accurate_mapping_rate\t$Uniformity\t$coverage_1x_rate\t" >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Total Base Length:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q30 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
+		cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q20 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q20\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
+		cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q20\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Total Base Length:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q30 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
+		cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q20 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q20\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		a=`cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");printf a[2]"\t"}'`
-		b=`cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");printf a[2]"\t"}'`
+		cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q20\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
+		a=`cat $sample_dir/${fq11/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");print a[2]"\t"}'`
+		b=`cat $sample_dir/${fq22/.gz/}.stat|awk '$0~/Q30\%:/{split($0,a,":");print a[2]"\t"}'`
 		q30=`echo $a $b | awk '{printf("%0.2f\n"),($1+$2)/2}'`"%"
 		minDepth=`less $sample_dir/${i}.mutation.xls | awk 'BEGIN {FS=OFS="\t"} {if(NR!=1){print $65}}'|sort -n |head -n 1`
 		if [[ ! -n $minDepth ]];then minDepth=400;fi
 		cat $sample_dir/${i}.paired.R1.fastq.stat|awk '$0~/Total Base Length:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.paired.R1.fastq.stat|awk '$0~/Q30 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${i}.paired.R1.fastq.stat|awk '$0~/Q30\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
+		cat $sample_dir/${i}.paired.R1.fastq.stat|awk '$0~/Q30\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.paired.R1.fastq.stat|awk '$0~/Q20 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${i}.paired.R1.fastq.stat|awk '$0~/Q20\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
+		cat $sample_dir/${i}.paired.R1.fastq.stat|awk '$0~/Q20\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.paired.R2.fastq.stat|awk '$0~/Total Base Length:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.paired.R2.fastq.stat|awk '$0~/Q30 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${i}.paired.R2.fastq.stat|awk '$0~/Q30\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
+		cat $sample_dir/${i}.paired.R2.fastq.stat|awk '$0~/Q30\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.paired.R2.fastq.stat|awk '$0~/Q20 Base:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
-		cat $sample_dir/${i}.paired.R2.fastq.stat|awk '$0~/Q20\%:/{split($0,a,":");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
+		cat $sample_dir/${i}.paired.R2.fastq.stat|awk '$0~/Q20\%:/{split($0,a,":");printf("%0.2f%%\t",a[2])}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.stat|awk '$0~/average length:/{split($0,a,"\t");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.stat|awk '$0~/average quality:/{split($0,a,"\t");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls
 		cat $sample_dir/${i}.stat|awk '$0~/insert size average:/{split($0,a,"\t");printf a[2]"\t"}' >>$sample_dir/${i}.Sequencing.QC.xls

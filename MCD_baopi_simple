@@ -24,8 +24,6 @@ aa_replace=$database_dir/gene_format/aa_replace.xls
 mut_type=$database_dir/gene_format/mut_type.xls
 vcf1=$database_dir/1000G_phase1.snps.high_confidence.hg19.vcf
 vcf2=$database_dir/Mills_and_1000G_gold_standard.indels.hg19.vcf
-#expect=/data/home/wanhuihui/software/expect5.45/expect
-#scpexp=/data/home/wanhuihui/software/longwang_routine/bin/baopi-scp.exp
 analysis_dir=/data/RightonAuto/analysis
 config_dir=/data/RightonAuto/config
 function echo_usage()
@@ -191,9 +189,6 @@ function lianti_Analysis()
 		echo -ne "$Target_effective_bases\t" >>$sample_dir/${i}.Sequencing.QC.xls
 		echo -ne "$Bases_capture_rate\t" >>$sample_dir/${i}.Sequencing.QC.xls
 		echo -ne "$coverage_1x_rate\t$coverage_4x_rate\t$coverage_10x_rate\t$coverage_20x_rate\t$coverage_50x_rate\t$coverage_100x_rate\t$coverage_200x_rate\t$coverage_500x_rate\t$median_coverage\t$Mode_insert_size\t$minDepth\t$q30\n" >>$sample_dir/${i}.Sequencing.QC.xls
-		python3 $bin_dir/api_baopi-post.py $sample_dir/${i}.Sequencing.QC.xls $sample_dir/${i}.QCtoJson.json $sample_dir/${i}.mutation.xls $sample_dir/${i}.MutationtoJson.json $id
-		#$expect $scpexp root Ro@2021.com 10.0.1.175 $sample_dir/${i}.ready.bam /home/bam
-		#$expect $scpexp root Ro@2021.com 10.0.1.175 $sample_dir/${i}.ready.bam.bai /home/bam
 		\mv $sample_dir/${i}.unique.stat $sample_dir/${i}.stat $sample_dir/${i}.dup.stat $sample_dir/${i}.paired.R1_QC $sample_dir/${i}.paired.R2_QC $sample_dir/${i}.paired.R1.fastq.stat $sample_dir/${i}.paired.R2.fastq.stat $sample_dir/QC/
 		\mv $sample_dir/${i}.Sequencing.QC.xls $sample_dir/${i}.ontarget.stat $sample_dir/${i}.${bed}.depth $sample_dir/${i}.${bed}.all.depth $sample_dir/QC/
 		\mv $sample_dir/${i}.ready.lianti-1.vcf $sample_dir/${i}.ready.lianti.vcf $sample_dir/${i}.lianti.all.xls $sample_dir/${i}.lianti.hg19_multianno.txt $sample_dir/${i}.lianti.hg19_multianno.vcf $sample_dir/${i}.hg19_multianno.xls $sample_dir/${i}.hg19_multianno_less.xls $sample_dir/${i}.hg19_multianno_more.xls $sample_dir/Mutation/

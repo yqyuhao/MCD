@@ -66,19 +66,11 @@ RUN wget -c https://github.com/arq5x/bedtools2/releases/download/v2.29.2/bedtool
 && make all \
 && ln -s $software/source/bedtools-2.29.2/bin/bedtools $software/bin/bedtools
 
-# lianti v1.0
+# lianti r142
 WORKDIR $software/source
 RUN git clone https://github.com/lh3/lianti.git \
-&& mv $software/source/lianti $software/source/lianti-1.0 && cd $software/source/lianti-1.0 && make \
+&& mv $software/source/lianti $software/source/lianti-r142 && cd $software/source/lianti-r142 && make \
 && ln -s $software/source/lianti-1.0/lianti $software/bin/lianti
-
-# seqtk v1.3
-WORKDIR $software/source
-RUN wget -c http://github.com/lh3/seqtk/archive/refs/tags/v1.3.tar.gz -O $software/source/seqtk.v1.3.tar.gz \
-&& tar -xf $software/source/seqtk.v1.3.tar.gz \
-&& cd $software/source/seqtk-1.3 \
-&& make \
-&& ln -s $software/source/seqtk-1.3/seqtk $software/bin/seqtk
 
 # fastqc v0.11.9
 WORKDIR $software/source

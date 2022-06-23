@@ -70,7 +70,7 @@ RUN wget -c https://github.com/arq5x/bedtools2/releases/download/v2.29.2/bedtool
 WORKDIR $software/source
 RUN git clone https://github.com/lh3/lianti.git \
 && mv $software/source/lianti $software/source/lianti-r142 && cd $software/source/lianti-r142 && make \
-&& ln -s $software/source/lianti-1.0/lianti $software/bin/lianti
+&& ln -s $software/source/lianti-r142/lianti $software/bin/lianti
 
 # fastqc v0.11.9
 WORKDIR $software/source
